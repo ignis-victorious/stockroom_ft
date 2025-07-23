@@ -16,7 +16,7 @@ def main(page: Page) -> None:
 
     # page.add(ft.Text(value="Hello", size=20))
 
-    login_view = LoginView(page=page)
+    login_view: LoginView = LoginView(page=page)
     login_view.build()
 
 
