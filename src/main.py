@@ -2,8 +2,8 @@
 #  Import LIBRARIES
 from flet import Page, app  # type: ignore
 
-# from app.models.database import create_table
 #  Import FILES
+from app.models.database import create_table
 from app.views.auth_view import LoginView
 
 #  ___________________
@@ -12,7 +12,8 @@ from app.views.auth_view import LoginView
 def main(page: Page) -> None:
     page.title = "Stock Manafement System"
 
-    # create_table()  # This creates the Auth table
+    print("Crating Login table")
+    create_table()  # This creates the Auth table
 
     # page.add(ft.Text(value="Hello", size=20))
 
