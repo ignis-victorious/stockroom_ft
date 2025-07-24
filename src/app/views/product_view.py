@@ -1,16 +1,10 @@
 #  ___________________
 #  Import LIBRARIES
-import flet as ft
-<<<<<<< HEAD
-from flet import AppBar, IconButton, Icons, Page, Text, TextField  # type: ignore
-=======
+import flet as ft  # type: ignore
 from flet import AppBar, Column, ElevatedButton, IconButton, Icons, Page, Row, Text, TextField  # type: ignore
->>>>>>> main
 
 #  Import FILES
 # from ..models.database import get_connection
-
-
 #  ___________________
 
 
@@ -33,26 +27,6 @@ class ProdutsView:
             leading=IconButton(icon=Icons.ARROW_BACK, on_click=lambda e: self._go_back()),
         )
 
-<<<<<<< HEAD
-        # self.page.add(
-        #     Column(
-        #         controls=[
-        #             self.product_name,
-        #             self.product_price,
-        #             self.product_quantity,
-        #             Row(
-        #                 controls=[
-        #                     ElevatedButton(
-        #                         #  Cadastar produto: Product's registration
-        #                         text="Product's registration",
-        #                         on_click=self._register_product,
-        #                     )
-        #                 ]
-        #             ),
-        #         ]
-        #     )
-        # )
-=======
         self.page.add(
             Column(
                 controls=[
@@ -71,7 +45,6 @@ class ProdutsView:
                 ]
             )
         )
->>>>>>> main
 
     # Função para cadastrar produto
     def _register_product(self, e: ft.ControlEvent): ...
