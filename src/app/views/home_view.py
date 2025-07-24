@@ -1,5 +1,6 @@
 #  ___________________
 #  Import LIBRARIES
+import flet as ft  # type: ignore
 from flet import (  # type: ignore
     AppBar,
     Column,
@@ -77,7 +78,28 @@ class HomeView:
 
     def _open_drawer(self) -> None:
         self.page.drawer.open = True
+        self.page.drawer.on_change = self._navigate
         self.page.update()
+
+    def _navigate(self, e: ft.ControlEvent) -> None:
+        # Pagina de DashBoard
+        if self.page.drawer.selected_index == 0:
+            ...
+        # Página de produtos
+        elif self.page.drawer.selected_index == 1:
+            from app.views.product_view import ProdutsView
+
+            product_view = ProdutsView(page=self.page)
+            product_view.build()
+        # Fornecedores
+        elif self.page.drawer.selected_index == 2:
+            ...
+        # Estoque
+        elif self.page.drawer.selected_index == 3:
+            ...
+        # Sair
+        elif self.page.drawer.selected_index == 4:
+            ...
 
 
 # class HomeView:

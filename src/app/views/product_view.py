@@ -1,6 +1,6 @@
 #  ___________________
 #  Import LIBRARIES
-import flet as ft
+import flet as ft  # type: ignore
 from flet import AppBar, Column, ElevatedButton, IconButton, Icons, Page, Row, Text, TextField  # type: ignore
 
 #  Import FILES
@@ -12,7 +12,7 @@ from flet import AppBar, Column, ElevatedButton, IconButton, Icons, Page, Row, T
 
 class ProdutsView:
     def __init__(self, page: Page) -> None:
-        self.page = page
+        self.page: Page = page
         # Nome do produto: Product's name
         self.product_name = TextField(label="Product's name")
         # Preço do produto: Product's Price
@@ -38,7 +38,7 @@ class ProdutsView:
                     Row(
                         controls=[
                             ElevatedButton(
-                                #  Cadastar produto: Product's registration
+                                #  Cadastar produto: Product's registration: Product registration function
                                 text="Product's registration",
                                 on_click=self._register_product,
                             )
@@ -47,6 +47,7 @@ class ProdutsView:
                 ]
             )
         )
+        self.page.update()
 
     # Função para cadastrar produto
     def _register_product(self, e: ft.ControlEvent): ...
@@ -54,5 +55,6 @@ class ProdutsView:
     def _go_back(self) -> None:
         from app.views.home_view import HomeView
 
-        home = HomeView(page=self.page)
+        home: HomeView = HomeView(page=self.page)
+        home: HomeView = HomeView(page=self.page)
         home.build()
