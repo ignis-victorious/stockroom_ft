@@ -18,7 +18,7 @@ def get_connection() -> sqlite3.Connection:
 def create_table() -> None:
     with get_connection() as conn:
         cursor: sqlite3.Cursor = conn.cursor()
-        #  usuarios = users
+        #  Tabela de usuarios = Products table
         cursor.execute("""
                        CREATE TABLE IF NOT EXISTS users (
                             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,4 +26,16 @@ def create_table() -> None:
                             password TEXT NOT NULL
                         )
                     """)
+
+        #  Tabela de produtos = Users table
+        cursor.execute("""
+                       CREATE TABLE IF NOT EXISTS products (
+                            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            name TEXT NOT NULL,
+                            price REAL NOT NULL,
+                            quantity INTEGER NOT NULL
+                        )
+                    """)
+
+        conn.commit()
         print("Login table created")

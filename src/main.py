@@ -21,8 +21,5 @@ def main(page: Page) -> None:
     login_view.build()
 
 
-app(target=main)
-
-
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    app(target=main)

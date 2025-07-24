@@ -12,9 +12,12 @@ from flet import (  # type: ignore
     Page,
     TextField,
 )
-from passlib.hash import pbkdf2_sha256
+from passlib.handlers.pbkdf2 import pbkdf2_sha256
 
+# from passlib.hash import pbkdf2_sha256 # The best way to fix this is to import the hasher directly from its module. This is more explicit and resolves the issue for Pylance without needing to disable any checks.
 #  Import FILES
+from app.views.home_view import HomeView
+
 from ..models.database import get_connection
 
 #  ___________________
@@ -22,12 +25,14 @@ from ..models.database import get_connection
 
 class LoginView:
     def __init__(self, page: Page) -> None:
+        # super().__init__()  # This class does not inherit from any Flet widget class it does NOT need to call super()
         self.page: Page = page
         self.username: TextField = TextField(label="Username")
         self.password: TextField = TextField(
             label="Password",
             password=True,
-            can_reveal_password=False,
+            can_reveal_password=True,
+            # can_reveal_password=False,
         )
 
         # Initialize controls property as an empty list to prevent potential None issues
@@ -45,7 +50,7 @@ class LoginView:
                 controls=[
                     ft.Text(value="Login", size=24, weight=ft.FontWeight.BOLD),
                     # Usuário: Username
-                    # ft.TextField(label="Username"),
+                    # TextField(label="Username"),
                     self.username,
                     # Senha: Password
                     # TextField(label="Password",password=True,can_reveal_password=False,),
@@ -86,11 +91,13 @@ class LoginView:
             cursor.execute("SELECT password FROM users WHERE username = ?", (user,))
             result = cursor.fetchone()
 
-            if result and pbkdf2_sha256.verify(passw, result[e]):
+            if result and pbkdf2_sha256.verify(secret=passw, hash=result[0]):
                 print("Login successful!")
                 # print('Login feito com sucesso! ')
 
-                # Tela inicial - Home screen
+                # Abrir Tela inicial - Open Home screen
+                home_view: HomeView = HomeView(page=self.page)
+                home_view.build()
 
             else:
                 print("Incorrect username or password!")
@@ -98,7 +105,7 @@ class LoginView:
 
                 # conn.commit
 
-    def _handle_register(self, e: ControlEvent):
+    def _handle_register(self, e: ft.ControlEvent) -> None:
         user: str = ""
         passw: str = ""
 
@@ -111,7 +118,7 @@ class LoginView:
             print("Please fill in all fields")
             return
 
-        hashed_password = pbkdf2_sha256.hash(secret=passw)
+        hashed_password: str = pbkdf2_sha256.hash(secret=passw)
 
         try:
             with get_connection() as conn:
@@ -120,7 +127,7 @@ class LoginView:
                     " INSERT INTO users (username, password) VALUES (?, ?)",
                     (user, hashed_password),
                 )
-                conn.commit
+                conn.commit()
 
                 print("User registered successfully!")
                 # print( 'Usuário cadastrado com sucesso!')
