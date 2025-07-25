@@ -24,7 +24,7 @@ class HomeView:
         self.page: Page = page
 
     def build(self) -> None:
-        self.page.controls.clear()
+        self.page.controls.clear()  # type: ignore
 
         self.page.drawer = NavigationDrawer(
             controls=[
@@ -74,12 +74,12 @@ class HomeView:
 
         self.page.add(Text(value="Near page.update(), Hello, Hello, Hello", size=28))
 
-        self.page.update()
+        self.page.update()  # type: ignore
 
     def _open_drawer(self) -> None:
         self.page.drawer.open = True
         self.page.drawer.on_change = self._navigate
-        self.page.update()
+        self.page.update()  # type: ignore
 
     def _navigate(self, e: ft.ControlEvent) -> None:
         # Pagina de DashBoard
@@ -101,7 +101,10 @@ class HomeView:
 
         # Estoque
         elif self.page.drawer.selected_index == 3:
-            ...
+            from app.views.stock_view import StockView
+
+            stock_view: StockView = StockView(page=self.page)
+            stock_view.build()
         # Sair
         elif self.page.drawer.selected_index == 4:
             ...
