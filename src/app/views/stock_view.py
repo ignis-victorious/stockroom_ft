@@ -1,6 +1,7 @@
 #  ___________________
 #  Import LIBRARIES
-# from sqlite3 import Cursor
+
+from sqlite3 import Cursor
 
 import flet as ft  # type: ignore
 from flet import (  # type: ignore
@@ -20,7 +21,7 @@ from flet import (  # type: ignore
 )
 
 #  Import FILES
-# from ..models.database import get_connection
+from ..models.database import get_connection
 
 #  ___________________
 
@@ -72,16 +73,49 @@ class StockView:
                 ],
                 expand=True,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                alignment=ft.MainAxisAlignment.CENTER,
                 scroll=ft.ScrollMode.AUTO,
             )
         )
 
-        # self.products_list()
-        # self.page.update()
+        # Função para pegar produtos banco de dados - Function to retrieve products from the database
 
-    def _product_in(self, e: ft.ControlEvent): ...
+        self._take_product()
+        self.page.update()
 
-    def _product_out(self, e: ft.ControlEvent): ...
+    def _take_product(self) -> None:
+        self.product_dropdown.options.clear()
+
+        with get_connection() as conn:
+            cursor: Cursor = conn.cursor()
+            #  produtos: products
+            cursor.execute("SELECT id, name FROM products")
+            for id_product, name in cursor.fetchall():
+                self.product_dropdown.options.append(ft.dropdown.Option(str(id_product), name))
+
+        self.page.update()
+
+    def _product_in(self, e: ft.ControlEvent) -> None:
+        self._refresh_stock(product_in=True)
+
+    def _product_out(self, e: ft.ControlEvent) -> None:
+        self._refresh_stock(product_in=False)
+
+    def _refresh_stock(self, product_in=True):
+        id_product = self.product_dropdown.value
+
+        if not id_product:
+            # Selecione um produto!: Select a product!
+            print("Select a product!")
+            return
+
+        try:
+            quantity = int(self.product_quantity_field.value)
+            if quantity <= 0:
+                raise ValueError
+        except:
+            print("Digite uma quantidade válida!")
+            return
 
     #  Função de recuar
     def _go_back(self) -> None:

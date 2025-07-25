@@ -82,6 +82,9 @@ class HomeView:
         self.page.update()  # type: ignore
 
     def _navigate(self, e: ft.ControlEvent) -> None:
+        # Close the drawer after selection (good practice)
+        self.page.drawer.open = False
+
         # Pagina de DashBoard
         if self.page.drawer.selected_index == 0:
             ...
@@ -108,6 +111,9 @@ class HomeView:
         # Sair
         elif self.page.drawer.selected_index == 4:
             ...
+
+        # Crucial: Update the page after navigation/drawer interaction
+        self.page.update()
 
 
 # class HomeView:
