@@ -89,11 +89,16 @@ class HomeView:
         elif self.page.drawer.selected_index == 1:
             from app.views.product_view import ProdutsView
 
-            product_view = ProdutsView(page=self.page)
+            product_view: ProdutsView = ProdutsView(page=self.page)
             product_view.build()
+
         # Fornecedores
         elif self.page.drawer.selected_index == 2:
-            ...
+            from app.views.supplier_view import SupplierView
+
+            supplier_view: SupplierView = SupplierView(page=self.page)
+            supplier_view.build()
+
         # Estoque
         elif self.page.drawer.selected_index == 3:
             ...

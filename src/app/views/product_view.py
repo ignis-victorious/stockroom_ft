@@ -74,7 +74,7 @@ class ProdutsView:
 
     # Função para cadastrar produto
     def _register_product(self, e: ft.ControlEvent) -> None:
-        name = self.product_name.value.strip()
+        name: str = self.product_name.value.strip()
         try:
             price = float(self.product_price.value.strip())
             quantity = int(self.product_quantity.value.strip())
@@ -122,6 +122,5 @@ class ProdutsView:
     def _go_back(self) -> None:
         from app.views.home_view import HomeView
 
-        home: HomeView = HomeView(page=self.page)
         home: HomeView = HomeView(page=self.page)
         home.build()

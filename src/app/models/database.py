@@ -37,5 +37,15 @@ def create_table() -> None:
                         )
                     """)
 
+        #  Tabela de fornecedores = Suppliers table
+        cursor.execute("""
+                       CREATE TABLE IF NOT EXISTS suppliers (
+                            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            name TEXT NOT NULL,
+                            telephone TEXT NOT NULL,
+                            email TEXT
+                        )
+                    """)
+
         conn.commit()
         print("Login table created")
