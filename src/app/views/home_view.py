@@ -30,7 +30,8 @@ class HomeView:
             controls=[
                 Container(height=50),
                 # DashBoard: Dashboard, Produtos: Products, Fornecedores: Suppliers, Estoque: Stock / Inventory, Sair: exit,
-                NavigationDrawerDestination(icon=Icons.HOME, label="DashBoard"),
+                NavigationDrawerDestination(icon=Icons.HOME, label="Home"),
+                NavigationDrawerDestination(icon=Icons.DASHBOARD, label="DashBoard"),
                 NavigationDrawerDestination(icon=Icons.INVENTORY, label="Products"),
                 NavigationDrawerDestination(icon=Icons.LOCAL_SHIPPING, label="Suppliers"),
                 NavigationDrawerDestination(icon=Icons.STORAGE, label="Inventory"),
@@ -90,28 +91,41 @@ class HomeView:
             ...
         # Página de produtos
         elif self.page.drawer.selected_index == 1:
+            from app.views.dashboard_view import DashboardView
+
+            dashboard_view: DashboardView = DashboardView(page=self.page)
+            dashboard_view.build()
+
+        # Fornecedores
+        elif self.page.drawer.selected_index == 2:
             from app.views.product_view import ProdutsView
 
             product_view: ProdutsView = ProdutsView(page=self.page)
             product_view.build()
 
         # Fornecedores
-        elif self.page.drawer.selected_index == 2:
+        elif self.page.drawer.selected_index == 3:
             from app.views.supplier_view import SupplierView
 
             supplier_view: SupplierView = SupplierView(page=self.page)
             supplier_view.build()
 
         # Estoque
-        elif self.page.drawer.selected_index == 3:
+        elif self.page.drawer.selected_index == 4:
             from app.views.stock_view import StockView
 
             stock_view: StockView = StockView(page=self.page)
             stock_view.build()
-        # Sair
-        elif self.page.drawer.selected_index == 4:
-            ...
 
+        # Sair
+        elif self.page.drawer.selected_index == 5:
+            # Handle Exit - e.g., navigate back to login or close the app
+            self.page.go(route="/")  # Example: navigate back to root if your app handles routing
+            # Alternatively, if you want to exit the app completely:
+            # self.page.window_close() # This will close the Flet window
+            pass  # Keep pass if you want to implement specific exit logic later
+
+        # After navigation, update the page to reflect the new content or state
         # Crucial: Update the page after navigation/drawer interaction
         self.page.update()
 

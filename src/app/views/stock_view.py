@@ -117,6 +117,32 @@ class StockView:
             print("Digite uma quantidade válida!")
             return
 
+        with get_connection() as conn:
+            cursor: Cursor = conn.cursor()
+            # produtos: products
+            cursor.execute("SELECT quantity FROM products WHERE id = ?", (id_product))
+            result = cursor.fetchone()
+
+            if not result:
+                #  Produto não encontrado!: Product not found!
+                print("Product not found!")
+                return
+
+            current_quantity = result[0]
+            new_quantity = current_quantity + quantity if product_in else current_quantity - quantity
+
+            if new_quantity < 0:
+                #  Quantidade insufuciente no estoque!: Insufficient quantity in stock
+                print("Insufficient quantity in stock")
+                return
+            cursor.execute("UPDATE products SET quantity = ? WHERE id = ?", (new_quantity, id_product))
+            conn.commit()
+
+            #  Estoque atualizado com sucesso!: Inventory succesfully updated!
+            print("Inventory succesfully updated!")
+            self.product_quantity_field.value = ""
+            self.page.update()
+
     #  Função de recuar
     def _go_back(self) -> None:
         from app.views.home_view import HomeView
